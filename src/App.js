@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useContext, useState } from "react";
+
+const AuthContext = createContext();
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={isLogged}>
+      <Auth />
+      <button
+        onClick={() => {
+          if (isLogged) setIsLogged(false);
+          else setIsLogged(true);
+        }}
+      >
+        {isLogged ? "Deslogar" : "Logar"}
+      </button>
+    </AuthContext.Provider>
   );
+}
+
+function Auth() {
+  const theme = useContext(AuthContext);
+  return <h1>{theme ? "Logado" : "Deslogado"}</h1>;
 }
 
 export default App;
